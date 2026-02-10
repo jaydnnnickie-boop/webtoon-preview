@@ -1,141 +1,42 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Webtoon Preview</title>
-  <style>
-    :root { color-scheme: dark; }
-    body { margin: 0; background: #000; }
+    <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Webtoon Preview</title>
+        <style>
+            :root { color-scheme: dark; }
+            body {
+            margin: 0;
+            background: #000;
+            font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+            }
+            /* Keep the page centered on wide monitors, but full-width on phones */
+            .wrap {
+            max-width: 1080px; /* change to 1920px if you want full-res on desktop */
+            margin: 0 auto;
+            }
+            img, video {
+            width: 100%;
+            height: auto;
+            display: block;
+            }
 
-    /* Center on desktop, full-width on mobile */
-    .wrap { max-width: 1080px; margin: 0 auto; }
+            /* Small optional spacing between blocks */
+            .block { margin: 0; }
 
-    /* This is the “page” container */
-    .page {
-      position: relative;
-      width: 100%;
-      overflow: hidden;
-      background: #000;
-    }
+            /* Optional: subtle divider for debugging chunk boundaries */
+            .debug .block { outline: 1px dashed rgba(255,255,255,0.08); }
+        </style>
+    </head>
 
-    /* Your transparent PNG sits on top */
-    .overlay {
-      position: relative;
-      z-index: 10;
-      width: 100%;
-      height: auto;
-      display: block;
-      pointer-events: none;
-    }
+    <body>
+        <div class="wrap">
+            <!-- MP4 (autoplay + loop + muted + playsinline are key for mobile) -->
+            <div class="block">
+            <video src="Image\space.mp4" autoplay loop muted playsinline preload="auto"></video>
+            </div>
 
-    /* Video layers live behind */
-    .vid {
-      position: absolute;
-      left: 0;
-      width: 100%;
-      z-index: 1;
-      display: block;
-      object-fit: cover;
-      background: #000;
-    }
-
-    /* Optional: reduce flicker / artifacts */
-    video { transform: translateZ(0); }
-  </style>
-</head>
-
-<body>
-  <div class="wrap">
-    <div class="page" id="page">
-
-      <!-- TOP VIDEO (space) -->
-      <video
-        id="vidTop"
-        class="vid"
-        muted
-        autoplay
-        loop
-        playsinline
-        preload="metadata"
-      >
-        <source src="Image/space.mp4" type="video/mp4">
-      </video>
-
-      <!-- BOTTOM VIDEO (galaxy palm, etc.) -->
-      <video
-        id="vidBottom"
-        class="vid"
-        muted
-        autoplay
-        loop
-        playsinline
-        preload="metadata"
-      >
-        <source src="Image/galaxy.mp4" type="video/mp4">
-      </video>
-
-      <!-- YOUR TRANSPARENT PAGE OVERLAY -->
-      <img
-        id="overlay"
-        class="overlay"
-        src="Image/Page_1_TrBg.png"
-        alt="Webtoon page overlay"
-      />
-
-    </div>
-  </div>
-
-  <script>
-    // ======= CONFIG YOU WILL EDIT =======
-    // These numbers are in "original image pixels" from your editor.
-    // Your page is ~1920 x 24093 (based on what you said earlier).
-    const ORIGINAL_WIDTH  = 1920;
-    const ORIGINAL_HEIGHT = 24093;
-
-    // Where the TOP transparent region is (startY, height)
-    // Example values — YOU WILL ADJUST:
-    const TOP_Y      = 0;
-    const TOP_H      = 1200;
-
-    // Where the BOTTOM transparent region is (startY, height)
-    // Example values — YOU WILL ADJUST:
-    const BOTTOM_Y   = 21500;
-    const BOTTOM_H   = 2600;
-
-    // ====================================
-
-    function layoutVideos() {
-      const img = document.getElementById("overlay");
-      const page = document.getElementById("page");
-      const top = document.getElementById("vidTop");
-      const bottom = document.getElementById("vidBottom");
-
-      // Rendered size of the image on the page (responsive)
-      const renderedWidth = img.clientWidth;
-      const scale = renderedWidth / ORIGINAL_WIDTH;
-
-      // Set page height to match rendered image height
-      // (Usually automatic, but this guarantees the absolute layers align.)
-      const renderedHeight = ORIGINAL_HEIGHT * scale;
-      page.style.height = renderedHeight + "px";
-
-      // Place videos behind the transparent zones, scaled to match
-      top.style.top = (TOP_Y * scale) + "px";
-      top.style.height = (TOP_H * scale) + "px";
-
-      bottom.style.top = (BOTTOM_Y * scale) + "px";
-      bottom.style.height = (BOTTOM_H * scale) + "px";
-    }
-
-    // Layout once image loads, and again on resize/orientation change
-    window.addEventListener("load", () => {
-      const img = document.getElementById("overlay");
-      if (img.complete) layoutVideos();
-      else img.addEventListener("load", layoutVideos);
-    });
-    window.addEventListener("resize", layoutVideos);
-    window.addEventListener("orientationchange", layoutVideos);
-  </script>
-</body>
+        </div>
+    </body>
 </html>
