@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+    <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Webtoon Preview</title>
+        <style>
+            :root { color-scheme: dark; }
+            body {
+            margin: 0;
+            background: #000;
+            font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+            }
+            /* Keep the page centered on wide monitors, but full-width on phones */
+            .wrap {
+            max-width: 1080px; /* change to 1920px if you want full-res on desktop */
+            margin: 0 auto;
+            }
+            img, video {
+            width: 100%;
+            height: auto;
+            display: block;
+            }
+
+            /* Small optional spacing between blocks */
+            .block { margin: 0; }
+
+            /* Optional: subtle divider for debugging chunk boundaries */
+            .debug .block { outline: 1px dashed rgba(255,255,255,0.08); }
+        </style>
+    </head>
+
+    <body>
+        <div class="wrap">
+            <!-- MP4 (autoplay + loop + muted + playsinline are key for mobile) -->
+            <div class="block">
+            <video src="Image\0001-0230.mp4" autoplay loop muted playsinline preload="auto"></video>
+            </div>
+
+        </div>
+    </body>
+</html>
